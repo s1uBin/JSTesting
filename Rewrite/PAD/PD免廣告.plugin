@@ -3,8 +3,8 @@
 #!author=local
 
 [Script]
-http-request ^https?:\/\/[^\/]*padsv\.gungho\.jp\/.*$ script-path=PD_capture.js, timeout=10, tag=PD攔截-請求
-http-response ^https?:\/\/[^\/]*padsv\.gungho\.jp\/.*$ script-path=PD_capture.js, requires-body=true, timeout=10, tag=PD攔截-回應
+http-request ^https?:\/\/[^\/]*padsv\.gungho\.jp\/.*$ script-path=https://raw.githubusercontent.com/s1uBin/JSTesting/refs/heads/main/Rewrite/PAD/PD_capture.js, timeout=10, tag=PD攔截-請求
+http-response ^https?:\/\/[^\/]*padsv\.gungho\.jp\/.*$ script-path=https://raw.githubusercontent.com/s1uBin/JSTesting/refs/heads/main/Rewrite/PAD/PD_capture.js, requires-body=true, timeout=10, tag=PD攔截-回應
 
 [MITM]
 hostname = %APPEND% padsv.gungho.jp
