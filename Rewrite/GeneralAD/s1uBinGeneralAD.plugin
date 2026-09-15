@@ -29,7 +29,6 @@ URL-REGEX,"^https?://fundingchoicesmessages.google.com/f/.*/controller.ad..*vide
 
 [Script]
 #http-response ^https:\/\/www\.toy-people\.com\/ script-path=https://raw.githubusercontent.com/s1uBin/JSTesting/refs/heads/main/Rewrite/GeneralAD/test.js,requires-body=true,timeout=20,tag=Toy-People Ad Clean,enable=true
-http-response ^https:\/\/www\.toy-people\.com\/ajax\/toy-ad\.php\? script-path=https://raw.githubusercontent.com/s1uBin/JSTesting/refs/heads/main/Rewrite/GeneralAD/test.js,requires-body=true,timeout=20,tag=Toy-People Ad API Test,enable=true
-
+http-response ^https:\/\/www\.toy-people\.com\/$ script-path=https://raw.githubusercontent.com/s1uBin/JSTesting/refs/heads/main/Rewrite/GeneralAD/test.js,requires-body=true,timeout=20,tag=Toy-People Ad Clean,enable=true
 [Mitm]
 hostname = *.toy-people.com
