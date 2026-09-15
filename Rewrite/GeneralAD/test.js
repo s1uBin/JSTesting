@@ -1,48 +1,20 @@
-// Toy-People Diagnostic v2 // READ ONLY - 不修改任何 Response
-var url = ($request && $request.url) ? $request.url : "NO_REQUEST";
-var status = ($response && $response.status) ? $response.status : "NO_STATUS";
-var headers = ($response && $response.headers) ? $response.headers : {};
-var contentType = headers["Content-Type"]  headers["content-type"]  "NO_CONTENT_TYPE";
-var encoding = headers["Content-Encoding"]  headers["content-encoding"]  "NO_ENCODING";
-var body = ($response && $response.body) ? $response.body : "";
-var len = body.length;
-console.log("========== TOY PEOPLE DIAGNOSTIC =========="); console.log("URL: " + url); console.log("STATUS: " + status); console.log("CONTENT-TYPE: " + contentType); console.log("CONTENT-ENCODING: " + encoding); console.log("BODY-LENGTH: " + len);
+var url = $request.url;
+var status = $response.status;
+var body = $response.body;
+
+console.log("=== TOY TEST ===");
+console.log("URL: " + url);
+console.log("STATUS: " + status);
+console.log("BODY LENGTH: " + (body ? body.length : 0));
+
 if (body) {
-console.log(
-    "HAS listAD: " +
-    (/\blistAD\b/i.test(body))
-);
-
-console.log(
-    "HAS footerAD: " +
-    (/\bfooterAD\b/i.test(body))
-);
-
-console.log(
-    "HAS bottomFixedBanner: " +
-    (/\bbottomFixedBanner\b/i.test(body))
-);
-
-console.log(
-    "GPT COUNT: " +
-    ((body.match(/div-gpt-ad-/gi) || []).length)
-);
-
-console.log(
-    "SWIPER COUNT: " +
-    ((body.match(/toy-Swiper|swiper-slide/gi) || []).length)
-);
-
-console.log(
-    "TOY-AD COUNT: " +
-    ((body.match(/toy-ad\.php/gi) || []).length)
-);
-
-// 顯示 HTML 開頭，確認拿到的是不是首頁
-console.log(
-    "BODY-START: " +
-    body.substring(0, 300).replace(/\s+/g, " ")
-);
+    console.log("listAD: " + (body.indexOf("listAD") >= 0));
+    console.log("footerAD: " + (body.indexOf("footerAD") >= 0));
+    console.log("bottomFixedBanner: " + (body.indexOf("bottomFixedBanner") >= 0));
+    console.log("GPT: " + (body.indexOf("div-gpt-ad-") >= 0));
+    console.log("SWIPER: " + (body.indexOf("toy-Swiper") >= 0));
 }
-console.log("========== END DIAGNOSTIC ==========");
-// 不修改 Response $done({});
+
+console.log("=== END ===");
+
+$done({});
