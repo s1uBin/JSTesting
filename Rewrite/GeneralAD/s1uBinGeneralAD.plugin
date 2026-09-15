@@ -13,15 +13,15 @@ debug = switch,false,tag=Enable Debug Mode
 
 [Rule]
 #Google Ads / Ad Manager
-DOMAIN-SUFFIX,googlesyndication.com,REJECT
-DOMAIN-SUFFIX,doubleclick.net,REJECT
-DOMAIN-SUFFIX,googletagservices.com,REJECT
-DOMAIN-SUFFIX,googleadservices.com,REJECT
+#DOMAIN-SUFFIX,googlesyndication.com,REJECT
+#DOMAIN-SUFFIX,doubleclick.net,REJECT
+#DOMAIN-SUFFIX,googletagservices.com,REJECT
+#DOMAIN-SUFFIX,googleadservices.com,REJECT
 #AMP Ads
 URL-REGEX,"^https?://cdn.ampproject.org/./amp-ad-..mjs",REJECT
 URL-REGEX,"^https?://cdn.ampproject.org/./amp4ads..mjs",REJECT
 #Toy-People AD API
-URL-REGEX,"^https?://www.toy-people.com/ajax/toy-ad.php",REJECT
+#URL-REGEX,"^https?://www.toy-people.com/ajax/toy-ad.php",REJECT
 #Google Ad-block recovery / ad related endpoint
 URL-REGEX,"^https?://fundingchoicesmessages.google.com/i/pub-8644626422197562",REJECT
 #video-ad
