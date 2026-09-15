@@ -1,11 +1,9 @@
 var body = $response.body;
-if (!body) { $done({}); } else {
-var css = `
-`;
-body = body.replace(/<\/head>/i, css + "</head>");
-
-$done({
+if (!body) {
+  $done({});
+} else {
+  body = body.replace(/<div[^>]class=["'][^"']\blistAD\b[^"']["'][\s\S]?</div > \s * < /div>/gi, '');
+  $done({
     body: body
-});
+  });
 }
-#Testing
