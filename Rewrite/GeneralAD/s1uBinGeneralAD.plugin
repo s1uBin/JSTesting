@@ -1,34 +1,42 @@
-#!name=GeneralAD Enhance
-#!desc=GeneralAD Enhance
-#!author=s1uBin
-#!system=iOS,iPadOS,tvOS,macOS
-#!loon_version=3.5.0(975)
+// Toy-People Response Diagnostic // 只讀取，不修改任何 Response
+var url = ($request && $request.url) ? $request.url : "NO_REQUEST"; var status = ($response && $response.status) ? $response.status : 0;
+var headers = ($response && $response.headers) ? $response.headers : {}; var contentType = headers["Content-Type"]  headers["content-type"]  "";
+var encoding = headers["Content-Encoding"]  headers["content-encoding"]  "";
+var body = ($response && $response.body) ? $response.body : ""; var bodyLength = body.length;
+// 只針對首頁 HTML 做內容偵測 var isHome = /^https://www.toy-people.com/(?:?.*)?$/i.test(url);
+var result = [];
+if (isHome && body) {
+result.push("HOME=YES");
 
-[Argument]
-blockUpload = switch,true,tag=Block Upload Button
-blockImmersive = switch,true,tag=Block Immersive Button
-blockShorts = switch,false,tag=Block Shorts Button
-captionLang = input,"off",tag=Caption Translation Language
-debug = switch,false,tag=Enable Debug Mode
+result.push(
+    "listAD=" +
+    ((body.match(/\blistAD\b/gi) || []).length)
+);
 
-[Rule]
-#Google Ads / Ad Manager
-#DOMAIN-SUFFIX,googlesyndication.com,REJECT
-#DOMAIN-SUFFIX,doubleclick.net,REJECT
-#DOMAIN-SUFFIX,googletagservices.com,REJECT
-#DOMAIN-SUFFIX,googleadservices.com,REJECT
-#AMP Ads
-URL-REGEX,"^https?://cdn.ampproject.org/./amp-ad-..mjs",REJECT
-URL-REGEX,"^https?://cdn.ampproject.org/./amp4ads..mjs",REJECT
-#Toy-People AD API
-#URL-REGEX,"^https?://www.toy-people.com/ajax/toy-ad.php",REJECT
-#Google Ad-block recovery / ad related endpoint
-URL-REGEX,"^https?://fundingchoicesmessages.google.com/i/pub-8644626422197562",REJECT
-#video-ad
-URL-REGEX,"^https?://fundingchoicesmessages.google.com/f/.*/controller.ad..*video-ad",REJECT
+result.push(
+    "footerAD=" +
+    ((body.match(/\bfooterAD\b/gi) || []).length)
+);
 
-[Script]
-#http-response ^https:\/\/www\.toy-people\.com\/ script-path=https://raw.githubusercontent.com/s1uBin/JSTesting/refs/heads/main/Rewrite/GeneralAD/test.js,requires-body=true,timeout=20,tag=Toy-People Ad Clean,enable=true
-http-response ^https:\/\/www\.toy-people\.com\/$ script-path=https://raw.githubusercontent.com/s1uBin/JSTesting/refs/heads/main/Rewrite/GeneralAD/test.js,requires-body=true,timeout=20,tag=Toy-People Ad Clean,enable=true
-[Mitm]
-hostname = *.toy-people.com
+result.push(
+    "bottomFixedBanner=" +
+    ((body.match(/\bbottomFixedBanner\b/gi) || []).length)
+);
+
+result.push(
+    "GPT=" +
+    ((body.match(/div-gpt-ad-/gi) || []).length)
+);
+
+result.push(
+    "Swiper=" +
+    ((body.match(/toy-Swiper|swiper-slide/gi) || []).length)
+);
+
+result.push(
+    "toy-ad.php=" +
+    ((body.match(/toy-ad\.php/gi) || []).length)
+);
+} else { result.push("HOME=NO"); }
+$notification.post( "Toy-People TEST", "Status=" + status + "  Body=" + bodyLength, result.join(" | ") );
+// ★關鍵：完全不修改 Response $done({});
