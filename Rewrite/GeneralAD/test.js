@@ -1,9 +1,9 @@
 var body = $response.body;
+
 if (!body) {
-  $done({});
+    $done({});
 } else {
-  body = body.replace(/<div[^>]class=["'][^"']\blistAD\b[^"']["'][\s\S]?</div > \s * < /div>/gi, '');
-  $done({
-    body: body
-  });
+    $done({
+        body: '{"round":1,"status":"null","data":null}'
+    });
 }
