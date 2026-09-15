@@ -1,42 +1,48 @@
-// Toy-People Response Diagnostic // 只讀取，不修改任何 Response
-var url = ($request && $request.url) ? $request.url : "NO_REQUEST"; var status = ($response && $response.status) ? $response.status : 0;
-var headers = ($response && $response.headers) ? $response.headers : {}; var contentType = headers["Content-Type"]  headers["content-type"]  "";
-var encoding = headers["Content-Encoding"]  headers["content-encoding"]  "";
-var body = ($response && $response.body) ? $response.body : ""; var bodyLength = body.length;
-// 只針對首頁 HTML 做內容偵測 var isHome = /^https://www.toy-people.com/(?:?.*)?$/i.test(url);
-var result = [];
-if (isHome && body) {
-result.push("HOME=YES");
-
-result.push(
-    "listAD=" +
-    ((body.match(/\blistAD\b/gi) || []).length)
+// Toy-People Diagnostic v2 // READ ONLY - 不修改任何 Response
+var url = ($request && $request.url) ? $request.url : "NO_REQUEST";
+var status = ($response && $response.status) ? $response.status : "NO_STATUS";
+var headers = ($response && $response.headers) ? $response.headers : {};
+var contentType = headers["Content-Type"]  headers["content-type"]  "NO_CONTENT_TYPE";
+var encoding = headers["Content-Encoding"]  headers["content-encoding"]  "NO_ENCODING";
+var body = ($response && $response.body) ? $response.body : "";
+var len = body.length;
+console.log("========== TOY PEOPLE DIAGNOSTIC =========="); console.log("URL: " + url); console.log("STATUS: " + status); console.log("CONTENT-TYPE: " + contentType); console.log("CONTENT-ENCODING: " + encoding); console.log("BODY-LENGTH: " + len);
+if (body) {
+console.log(
+    "HAS listAD: " +
+    (/\blistAD\b/i.test(body))
 );
 
-result.push(
-    "footerAD=" +
-    ((body.match(/\bfooterAD\b/gi) || []).length)
+console.log(
+    "HAS footerAD: " +
+    (/\bfooterAD\b/i.test(body))
 );
 
-result.push(
-    "bottomFixedBanner=" +
-    ((body.match(/\bbottomFixedBanner\b/gi) || []).length)
+console.log(
+    "HAS bottomFixedBanner: " +
+    (/\bbottomFixedBanner\b/i.test(body))
 );
 
-result.push(
-    "GPT=" +
+console.log(
+    "GPT COUNT: " +
     ((body.match(/div-gpt-ad-/gi) || []).length)
 );
 
-result.push(
-    "Swiper=" +
+console.log(
+    "SWIPER COUNT: " +
     ((body.match(/toy-Swiper|swiper-slide/gi) || []).length)
 );
 
-result.push(
-    "toy-ad.php=" +
+console.log(
+    "TOY-AD COUNT: " +
     ((body.match(/toy-ad\.php/gi) || []).length)
 );
-} else { result.push("HOME=NO"); }
-$notification.post( "Toy-People TEST", "Status=" + status + "  Body=" + bodyLength, result.join(" | ") );
-// ★關鍵：完全不修改 Response $done({});
+
+// 顯示 HTML 開頭，確認拿到的是不是首頁
+console.log(
+    "BODY-START: " +
+    body.substring(0, 300).replace(/\s+/g, " ")
+);
+}
+console.log("========== END DIAGNOSTIC ==========");
+// 不修改 Response $done({});
