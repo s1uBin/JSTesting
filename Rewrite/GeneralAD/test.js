@@ -1,20 +1,43 @@
-var url = $request.url;
-var status = $response.status;
 var body = $response.body;
+if (!body) { $done({}); } else {
+// Remove Toy-People ad containers only
+body = body.replace(
+    /<div[^>]*class=["'][^"']*\blistAD\b[^"']*["'][\s\S]*?<\/div>\s*<\/div>/gi,
+    ""
+);
 
-console.log("=== TOY HOME CHECK ===");
-console.log("URL: " + url);
-console.log("STATUS: " + status);
-console.log("BODY LENGTH: " + (body ? body.length : 0));
+body = body.replace(
+    /<div[^>]*class=["'][^"']*\bfooterAD\b[^"']*["'][\s\S]*?<\/div>\s*<\/div>/gi,
+    ""
+);
 
-if (body && body.length > 1000) {
-    console.log("HAS HTML: " + (body.indexOf("<html") >= 0));
-    console.log("HAS listAD: " + (body.indexOf("listAD") >= 0));
-    console.log("HAS footerAD: " + (body.indexOf("footerAD") >= 0));
-    console.log("HAS GPT: " + (body.indexOf("div-gpt-ad-") >= 0));
-    console.log("HAS SWIPER: " + (body.indexOf("toy-Swiper") >= 0));
+body = body.replace(
+    /<div[^>]*class=["'][^"']*\bbottomFixedBanner\b[^"']*["'][\s\S]*?<\/div>\s*<\/div>\s*<\/div>/gi,
+    ""
+);
+
+// Remove Google GPT ad slots only
+body = body.replace(
+    /<div[^>]*id=["']div-gpt-ad-1548832076097-0["'][^>]*>[\s\S]*?<\/div>/gi,
+    ""
+);
+
+body = body.replace(
+    /<div[^>]*id=["']div-gpt-ad-1548832129106-0["'][^>]*>[\s\S]*?<\/div>/gi,
+    ""
+);
+
+body = body.replace(
+    /<div[^>]*id=["']div-gpt-ad-1548832180624-0["'][^>]*>[\s\S]*?<\/div>/gi,
+    ""
+);
+
+body = body.replace(
+    /<div[^>]*id=["']div-gpt-ad-1609243813618-0["'][^>]*>[\s\S]*?<\/div>/gi,
+    ""
+);
+
+$done({
+    body: body
+});
 }
-
-console.log("=== END ===");
-
-$done({});
