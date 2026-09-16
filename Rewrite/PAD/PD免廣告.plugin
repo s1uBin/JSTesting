@@ -1,5 +1,5 @@
 #!name=PD免廣告(主腳本)
-#!desc=攔截Puzzle&Dragons的廣告獎勵API並自動捕獲樣本。配合同資料夾的PD_capture.js、PD_claim.js一起匯入Loon。
+#!desc=攔截Puzzle&Dragons的廣告獎勵API並自動捕獲樣本。
 #!author=local
 
 [Script]
