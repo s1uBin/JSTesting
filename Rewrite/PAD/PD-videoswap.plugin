@@ -1,0 +1,9 @@
+#!name=PD視頻替換(備用)
+#!desc=備用方案:把AdMob激勵視頻(gmasdk)換成10秒樣本視頻,遊戲照常走完領獎流程。
+#!author=local
+
+[rewrite local]
+^https?:\/\/[a-z0-9-]+\.googlevideo\.com\/videoplayback\?.*ic=gmasdk.*$ url https://www.w3schools.com/html/mov_bbb.mp4
+
+[MITM]
+hostname = %APPEND% googlevideo.com
